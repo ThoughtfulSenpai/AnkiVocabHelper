@@ -9,11 +9,11 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 def main():
     app = QApplication(sys.argv)
 
-    # Создаем и показываем окно выбора таблицы
+    # Create and display the table selection window
     table_selection_window = TableSelectionWindow()
     table_selection_window.show()
 
-    # Запускаем цикл обработки событий приложения
+    # Start the application event loop
     sys.exit(app.exec_())
 
 if __name__ == '__main__':
