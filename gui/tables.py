@@ -89,13 +89,14 @@ class TableSelectionWindow(QMainWindow):
             self.update_table_list()
 
     def update_table_list(self):
-        # Очистите table_list
+        # Clear the table_list
         self.table_list.clear()
-
-        # Загрузите список существующих таблиц и добавьте их в table_list
-        for file in os.listdir("../gui"):
+        # Get the current working directory
+        current_directory = os.getcwd()
+        # Load the list of existing tables and add them to table_list
+        for file in os.listdir(current_directory):
             if file.endswith(".db"):
-                self.table_list.addItem(file[:-3])  # Убираем расширение
+                self.table_list.addItem(file[:-3])  # Remove the file
 
     def open_table(self, item):
         # Получаем имя выбранной таблицы
