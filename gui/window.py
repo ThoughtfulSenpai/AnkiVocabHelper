@@ -1,4 +1,4 @@
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, \
     QVBoxLayout, QWidget, QMessageBox, QHBoxLayout, QMenu, QAction, QApplication
 from PyQt5.QtCore import Qt
@@ -12,10 +12,7 @@ from info_window import InfoWindow
 class MainWindow(QMainWindow):
     def __init__(self, table_name):
         super().__init__()
-        #print(f"Initializing MainWindow with table: {table_name}")  # Добавьте эту строку
-
-        self.setWindowTitle("AnkiVocabHelper")
-
+        self.setWindowTitle("AnkiVocabHelperDevelopment")
         self.setStyleSheet("""
             QMainWindow {
                 background-color: #282828;
@@ -53,53 +50,54 @@ class MainWindow(QMainWindow):
         self.difficulty_sort_order = 0
         self.date_sort_order = 0
 
-        # Устанавливаем размер окна
+       # Set the window size
         self.setGeometry(100, 100, 800, 600)  # параметры: x, y, width, height
 
-        # Создаем подключение к базе данных с указанным именем таблицы
+        # Create a connection to the database with the specified table name
         self.conn = create_connection(table_name)
 
-        # Создаем таблицу, если она еще не существует
+       # Create a table if it doesn't already exist
         create_table(self.conn)
 
-        # Добавляем новый столбец, если он еще не существует
+       # Add a new column called date_added if it doesn't already exist
         if not column_exists(self.conn, "date_added"):
             add_column(self.conn)
 
-        # Добавляем новый столбец, если он еще не существует
+       # Add a new column named favorite if it doesn't already exist
         if not column_exists(self.conn, "favorite"):
             add_favorite_column(self.conn)
 
-        # Создаем виджеты
+        # Create widgets
         self.word_input = QLineEdit()
         self.add_button = QPushButton("Add")
 
-        # Подключаем обработчик события нажатия кнопки
+        # Connecting the "add" button click an event handler. 
         self.add_button.clicked.connect(self.add_word)
-
-        # Подключаем обработчик события нажатия клавиши Enter
+        # Connect the event handler for pressing the Enter key
         self.word_input.returnPressed.connect(self.add_word)
+
+
 
         self.table = QTableWidget(0, 2)
         self.table.setHorizontalHeaderLabels(["Words", "Difficulty", "Controls"])
 
-        # Получаем горизонтальный заголовок таблицы
+        # Get the horizontal table header
         header = self.table.horizontalHeader()
 
-        # Устанавливаем растяжение последнего столбца
+        # Set the stretch of the last column
         header.setStretchLastSection(True)
 
-        self.table.horizontalHeader().sectionClicked.connect(
-            self.sort_table)  # подключаем обработчик события нажатия на заголовок столбца
+        # Connect the event handler for clicking on the column header
+        self.table.horizontalHeader().sectionClicked.connect(self.sort_table)  
 
-        # Устанавливаем начальный размер таблицы
+       # Set the initial size of the table
         self.table.setColumnWidth(0, 200)
         self.table.setColumnWidth(1, 100)
 
-        # Подключаем обработчик события клика по элементу таблицы
+        # Connect the event handler for clicking on a table element
         self.table.itemClicked.connect(self.handle_item_clicked)
 
-        # Создаем компоновку и добавляем в нее виджеты
+        # Create a layout and add widgets to it
         layout = QVBoxLayout()
         layout.addWidget(self.word_input)
         layout.addWidget(self.add_button)
@@ -107,27 +105,26 @@ class MainWindow(QMainWindow):
 
         self.info_button = QPushButton("i")
         self.info_button.clicked.connect(self.show_info)
-        self.info_button.setFixedSize(30, 30)  # параметры: ширина, высота
+        self.info_button.setFixedSize(30, 30)  # parameters: width, height
 
-        self.back_button = QPushButton("Back")  # Создайте новую кнопку
-        self.back_button.clicked.connect(self.go_back)  # Подключите обработчик события нажатия кнопки
+        self.back_button = QPushButton("Back")  # Create a new button
+        self.back_button.clicked.connect(self.go_back)  #Connect the button click event handler
         self.back_button.setFixedSize(50, 30)
 
-        # Создайте горизонтальный компоновщик
+        # Create a horizontal layout
         h_layout = QHBoxLayout()
         h_layout.addWidget(self.info_button)
-        h_layout.addStretch()  # Добавьте растяжение между кнопками
+        h_layout.addStretch()  # Add stretch between buttons
         h_layout.addWidget(self.back_button)
 
-        layout.addLayout(h_layout)  # Добавьте горизонтальный компоновщик в основной вертикальный компоновщик
+        layout.addLayout(h_layout)  # Add a horizontal layout to the main vertical layout
 
-        # Создаем центральный виджет и устанавливаем его в окне
+        # Create a central widget and install it in the window
         central_widget = QWidget()
         central_widget.setLayout(layout)
         self.setCentralWidget(central_widget)
 
-        self.update_table()  # Добавьте эту строку в конце метода __init__
-        #print("MainWindow initialized")  # Добавьте эту строку
+        self.update_table()  
 
     def add_word(self):
         words = self.word_input.text().split(',')
@@ -199,21 +196,22 @@ class MainWindow(QMainWindow):
         self.table.setColumnWidth(3, 100)  # Установите ширину столбца для кнопки "Избранное"
 
     def handle_item_clicked(self, item):
-        # Check if the element is a "Delete" button
-        if item.column() == 2 and item.text() == "Delete":
-            # Get a word from the table
-            word = self.table.item(item.row(), 0).text()
-            # Remove the word from the database
-            delete_word(self.conn, word)
-            # Update the table
-            self.update_table()
-         # Check if the right mouse button was clicked
-       
-        if QApplication.mouseButtons() == Qt.RightButton:
-            # Create a context menu
-            context_menu = QMenu(self)
+    # Check if the right mouse button was clicked
+    if QApplication.mouseButtons() == Qt.RightButton:
+        # Create a context menu
+        context_menu = QMenu(self)
 
-            # Get the selected word
+        # Check if the clicked item is a "Delete" button
+        if item.column() == 2 and item.text() == "Delete":
+            # If it is a "Delete" button, get the corresponding word
+            word = self.table.item(item.row(), 0).text()
+
+            # Add action to delete the word from the database
+            delete_action = QAction("Delete", self)
+            delete_action.triggered.connect(lambda: self.delete_word(word))
+            context_menu.addAction(delete_action)
+        else:
+            # If it is a word, get the selected word
             selected_word = self.table.item(item.row(), 0).text()
 
             # Add action to copy the word to the clipboard
@@ -221,19 +219,16 @@ class MainWindow(QMainWindow):
             copy_action.triggered.connect(lambda: self.copy_to_clipboard(selected_word))
             context_menu.addAction(copy_action)
 
-            # Show the context menu at the cursor position
-            context_menu.exec_(QCursor.pos())
+        # Show the context menu at the cursor position
+        context_menu.exec_(QCursor.pos())
 
-    def copy_to_clipboard(self, text):
-        # Copy the text to the clipboard
-        clipboard = QApplication.clipboard()
-        clipboard.setText(text)
+        
+            
 
     def delete_word(self, word):
-        # Удаляем слово из базы данных
+       # Remove the word from the database
         delete_word(self.conn, word)
-
-        # Обновляем таблицу
+        # Update the table
         self.update_table()
 
     def sort_table(self, column):
