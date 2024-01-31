@@ -100,10 +100,27 @@ class MainWindow(QMainWindow):
 
         # Create a layout and add widgets to it
         layout = QVBoxLayout()
+       
+        
+
+        # Create a General Layout 
+        layout = QVBoxLayout()
+
+        # Create a horizontal layout for the command palette buttons
+        command_palette_layout = QHBoxLayout()
+        command_palette_layout.addWidget(self.add_button)
+        command_palette_layout.addWidget(self.copyWords)
+
+        # Add the command palette layout to the main vertical layout
+        layout.addLayout(command_palette_layout)
         layout.addWidget(self.word_input)
         layout.addWidget(self.add_button)
         layout.addWidget(self.copyWords)
         layout.addWidget(self.table)
+
+
+
+
 
         self.info_button = QPushButton("i")
         self.info_button.clicked.connect(self.show_info)
