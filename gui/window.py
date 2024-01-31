@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, \
-    QVBoxLayout, QWidget, QMessageBox, QHBoxLayout
+    QVBoxLayout, QWidget, QMessageBox, QHBoxLayout, QMenu, QAction, QApplication
 from PyQt5.QtCore import Qt
 import sys
 
@@ -199,16 +199,35 @@ class MainWindow(QMainWindow):
         self.table.setColumnWidth(3, 100)  # Установите ширину столбца для кнопки "Избранное"
 
     def handle_item_clicked(self, item):
-        # Проверяем, является ли элемент кнопкой "Удалить"
+        # Check if the element is a "Delete" button
         if item.column() == 2 and item.text() == "Delete":
-            # Получаем слово из таблицы
+            # Get a word from the table
             word = self.table.item(item.row(), 0).text()
-
-            # Удаляем слово из базы данных
+            # Remove the word from the database
             delete_word(self.conn, word)
-
-            # Обновляем таблицу
+            # Update the table
             self.update_table()
+         # Check if the right mouse button was clicked
+       
+        if QApplication.mouseButtons() == Qt.RightButton:
+            # Create a context menu
+            context_menu = QMenu(self)
+
+            # Get the selected word
+            selected_word = self.table.item(item.row(), 0).text()
+
+            # Add action to copy the word to the clipboard
+            copy_action = QAction("Copy to Clipboard", self)
+            copy_action.triggered.connect(lambda: self.copy_to_clipboard(selected_word))
+            context_menu.addAction(copy_action)
+
+            # Show the context menu at the cursor position
+            context_menu.exec_(QCursor.pos())
+
+    def copy_to_clipboard(self, text):
+        # Copy the text to the clipboard
+        clipboard = QApplication.clipboard()
+        clipboard.setText(text)
 
     def delete_word(self, word):
         # Удаляем слово из базы данных
@@ -307,11 +326,12 @@ class NumericTableWidgetItem(QTableWidgetItem):
     def __lt__(self, other):
         return float(self.text()) < float(other.text())
 
-# # Создаем приложение и главное окно
+# # Create the application and the main window
+    
 # app = QApplication(sys.argv)
 # window = MainWindow()
 # window.update_table()
 # window.show()
-#
-# # Запускаем цикл обработки событий приложения
+    
+# # Start the application event loop
 # sys.exit(app.exec_())
