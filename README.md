@@ -6,7 +6,8 @@
 
 The Anki Vocabulary Helper is a free tool designed to assist learners in expanding their vocabulary in foreign languages. It leverages the wordfreq python library to assess the difficulty of foreign words. The application aids in determining which words should be added to Anki next. Typically, learners prefer to start with words that are easier, more common, and frequently used. This is where wordfreq library comes into play - it evaluates the complexity of words, allowing users to prioritize learning words based on their difficulty level.
 
-![Screenshot](Screenshot_1.png)
+<img width="400" alt="image" src="https://github.com/ThoughtfulSenpai/AnkiVocabHelper/assets/100229664/d5d22819-1277-436b-9abc-a846aa5b40ac">
+
 
 The primary purpose of this application is to facilitate the tracking of new words for users, particularly those who use Anki for learning languages. 
 
@@ -110,7 +111,7 @@ Sometimes you want to learn more difficult words first, like, for example, becau
 
 ## Tips 
 1. To add a new word you can just press ENTER after typing the word, you don't have to click "add" all the time.
-2. If you want to add more than one word at ones you can just write the list of words that you want ot add devided by ",". The program will rate each word separately.
+2. If you want to add more than one word at ones you can just write the list of words that you want ot add separated by a comma ",". The program will add each word separately.
 3. You can sort words in each direction from the simplest to the most difficult and in the opposite way by just clicking twice on the "difficulty" button.
 4. The word's difficulty varies from 1 to 100. If you are getting the word with number 101 that means that the API doesn't have this word. It happens very rare, usually with some very unpopular words and slang.
 
