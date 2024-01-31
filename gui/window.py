@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QIcon, QCursor
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLineEdit, QTableWidget, QTableWidgetItem, \
-    QVBoxLayout, QWidget, QMessageBox, QHBoxLayout, QMenu, QAction, QApplication
+    QVBoxLayout, QWidget, QMessageBox, QHBoxLayout, QMenu, QAction, QApplication, QMessageBox
 from PyQt5.QtCore import Qt
 import sys
 
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
         self.date_sort_order = 0
 
        # Set the window size
-        self.setGeometry(100, 100, 800, 600)  # параметры: x, y, width, height
+        self.setGeometry(100, 100, 800, 600)  # Parametres: x, y, width, height
 
         # Create a connection to the database with the specified table name
         self.conn = create_connection(table_name)
@@ -70,14 +70,15 @@ class MainWindow(QMainWindow):
         # Create widgets
         self.word_input = QLineEdit()
         self.add_button = QPushButton("Add")
+        self.copyWords = QPushButton("Copy Words to clipboard")
 
         # Connecting the "add" button click an event handler. 
         self.add_button.clicked.connect(self.add_word)
         # Connect the event handler for pressing the Enter key
         self.word_input.returnPressed.connect(self.add_word)
-
-
-
+        
+        # Connect the event handler for clicking the "Copy Words" button.
+        self.copyWords.clicked.connect(self.copy_words_to_clipboard)
         self.table = QTableWidget(0, 2)
         self.table.setHorizontalHeaderLabels(["Words", "Difficulty", "Controls"])
 
@@ -101,6 +102,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
         layout.addWidget(self.word_input)
         layout.addWidget(self.add_button)
+        layout.addWidget(self.copyWords)
         layout.addWidget(self.table)
 
         self.info_button = QPushButton("i")
@@ -196,35 +198,17 @@ class MainWindow(QMainWindow):
         self.table.setColumnWidth(3, 100)  # Установите ширину столбца для кнопки "Избранное"
 
     def handle_item_clicked(self, item):
-    # Check if the right mouse button was clicked
-    if QApplication.mouseButtons() == Qt.RightButton:
-        # Create a context menu
-        context_menu = QMenu(self)
-
-        # Check if the clicked item is a "Delete" button
+        # Проверяем, является ли элемент кнопкой "Удалить"
         if item.column() == 2 and item.text() == "Delete":
-            # If it is a "Delete" button, get the corresponding word
+            # Получаем слово из таблицы
             word = self.table.item(item.row(), 0).text()
 
-            # Add action to delete the word from the database
-            delete_action = QAction("Delete", self)
-            delete_action.triggered.connect(lambda: self.delete_word(word))
-            context_menu.addAction(delete_action)
-        else:
-            # If it is a word, get the selected word
-            selected_word = self.table.item(item.row(), 0).text()
+            # Удаляем слово из базы данных
+            delete_word(self.conn, word)
 
-            # Add action to copy the word to the clipboard
-            copy_action = QAction("Copy to Clipboard", self)
-            copy_action.triggered.connect(lambda: self.copy_to_clipboard(selected_word))
-            context_menu.addAction(copy_action)
-
-        # Show the context menu at the cursor position
-        context_menu.exec_(QCursor.pos())
-
-        
+            # Обновляем таблицу
+            self.update_table()
             
-
     def delete_word(self, word):
        # Remove the word from the database
         delete_word(self.conn, word)
@@ -316,6 +300,23 @@ class MainWindow(QMainWindow):
         from tables import TableSelectionWindow  # Импортируйте здесь
         self.table_selection_window = TableSelectionWindow()
         self.table_selection_window.show()
+
+    def copy_words_to_clipboard(self):
+        # Get the words from the first column
+        words = [self.table.item(row, 0).text() for row in range(self.table.rowCount())]
+
+        # Join the words into a string, separated by a comma and a space
+        words_text = ", ".join(words)
+
+        # Create a QClipboard object
+        clipboard = QApplication.clipboard()
+
+        # Set the text to the clipboard
+        clipboard.setText(words_text)
+
+        # Show a message to indicate that the words are copied
+        QMessageBox.information(self, "Copy Words", "Words copied to clipboard.")
+
 
 class NumericTableWidgetItem(QTableWidgetItem):
     def __lt__(self, other):
