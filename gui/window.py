@@ -97,25 +97,19 @@ class MainWindow(QMainWindow):
 
         # Connect the event handler for clicking on a table element
         self.table.itemClicked.connect(self.handle_item_clicked)
-
-        # Create a layout and add widgets to it
-        layout = QVBoxLayout()
        
-        
-
-        # Create a General Layout 
+        # Create a General Layout for the window
         layout = QVBoxLayout()
+        layout.addWidget(self.word_input)
 
-        # Create a horizontal layout for the command palette buttons
+        # Create a horizontal layout for the palette of commands buttons
         command_palette_layout = QHBoxLayout()
+        command_palette_layout.addWidget(self.word_input)
         command_palette_layout.addWidget(self.add_button)
         command_palette_layout.addWidget(self.copyWords)
 
         # Add the command palette layout to the main vertical layout
         layout.addLayout(command_palette_layout)
-        layout.addWidget(self.word_input)
-        layout.addWidget(self.add_button)
-        layout.addWidget(self.copyWords)
         layout.addWidget(self.table)
 
 
