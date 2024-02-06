@@ -8,6 +8,8 @@ from db import add_word, create_connection, get_all_words, create_table, delete_
     word_exists, set_favorite, get_favorite, add_favorite_column, get_language
 from wordfreqlib import get_word_difficulty
 from info_window import InfoWindow
+from lemma_window import LemmaWindow
+
 
 class MainWindow(QMainWindow):
     def __init__(self, table_name):
@@ -113,9 +115,10 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.table)
 
 
-
-
-
+        self.lemma_window_button = QPushButton("Open Lemma Window")
+        self.lemma_window_button.clicked.connect(self.open_lemma_window)
+        self.setCentralWidget(self.lemma_window_button)
+        
         self.info_button = QPushButton("i")
         self.info_button.clicked.connect(self.show_info)
         self.info_button.setFixedSize(30, 30)  # parameters: width, height
@@ -131,6 +134,7 @@ class MainWindow(QMainWindow):
         h_layout.addWidget(self.back_button)
 
         layout.addLayout(h_layout)  # Add a horizontal layout to the main vertical layout
+        layout.addWidget(self.lemma_window_button)
 
         # Create a central widget and install it in the window
         central_widget = QWidget()
@@ -327,6 +331,10 @@ class MainWindow(QMainWindow):
 
         # Show a message to indicate that the words are copied
         QMessageBox.information(self, "Copy Words", "Words copied to clipboard.")
+
+    def open_lemma_window(self):
+        self.lemma_window = LemmaWindow(self)
+        self.lemma_window.show()
 
 
 class NumericTableWidgetItem(QTableWidgetItem):
