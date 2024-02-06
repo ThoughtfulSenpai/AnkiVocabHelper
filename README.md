@@ -6,25 +6,18 @@
 
 The Anki Vocabulary Helper is a free tool designed to assist learners in expanding their vocabulary in foreign languages. It leverages the wordfreq python library to assess the difficulty of foreign words. The application aids in determining which words should be added to Anki next. Typically, learners prefer to start with words that are easier, more common, and frequently used. This is where wordfreq library comes into play - it evaluates the complexity of words, allowing users to prioritize learning words based on their difficulty level.
 
-<img width="400" alt="image" src="https://github.com/ThoughtfulSenpai/AnkiVocabHelper/assets/100229664/d5d22819-1277-436b-9abc-a846aa5b40ac">
+<img width="500" alt="image" src="https://github.com/ThoughtfulSenpai/AnkiVocabHelper/assets/100229664/d5d22819-1277-436b-9abc-a846aa5b40ac">
 
-
-The primary purpose of this application is to facilitate the tracking of new words for users, particularly those who use Anki for learning languages. 
-
-By using this application, learners can streamline their vocabulary learning process and focus on the most relevant words first.
+The primary purpose of this application is to facilitate the tracking of new words for users, particularly those who use Anki for learning languages. By using this application, learners can streamline their vocabulary learning process and focus on the most relevant words first.
 
 ## Getting Started
 
 1. Install AnkiVocabHelper.zip from **releases** page.
-
 2. Extract AnkiVocabHelper.
-
 3. Navigate to gui folder.
-
 4. Run AnkiVocabHelper.exe.
 
 That's it!
-
 Optionally you can create a shortcut for main.exe and move it to your desktop for quicker access.
 
 ## Running the Application
@@ -72,6 +65,21 @@ You can check the full list of supported languages on wordfreq's page:
 <a href="https://pypi.org/project/wordfreq/">Wordfreq library page.</a>
 
 PS: I removed slovak and slovenian because this 2 languages didn't work properly for some reason, sorry;( 
+
+## Lemmatisation
+
+spaCy has been implemented, so that lemmatisation of words can occur, see example below:
+Before lemmatisation:
+<img width="400" alt="image" src="https://github.com/ThoughtfulSenpai/AnkiVocabHelper/assets/100229664/f10b52bd-59b4-4aca-aabf-1304ba460433">
+Lemmatise window
+<img width="391" alt="image" src="https://github.com/ThoughtfulSenpai/AnkiVocabHelper/assets/100229664/ff2266e8-e304-4abd-9f86-c2a4edfb0334">
+After lemmatisation 
+<img width="400" alt="image" src="https://github.com/ThoughtfulSenpai/AnkiVocabHelper/assets/100229664/29d463eb-3fe4-4926-a891-e98cacac337d">
+
+
+
+
+
 
 ## Development Updates
 
