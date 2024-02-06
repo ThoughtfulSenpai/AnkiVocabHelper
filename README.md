@@ -43,50 +43,12 @@ After adding some words just sort the table by difficulty.
 
 4. Repeat until C2.
 
-## Supported Languages
-
-- **English**
-- **Spanish**
-- **German**
-- **Japanese**
-- **Korean**
-- **Chinese**
-- **Franch**
-- **Arabic**
-- **Russian**
-- **Czech**
-- **Hebrew**
-- **Polish**
-- **Swedish**
-- **Norwegian**
-- **Dutch**
-- **Italian**
-- **Bengali**
-- **Portuguese**
-- **Catalan**
-
-And 20 more languages!
 
 You can check the full list of supported languages on wordfreq's page: 
 <a href="https://pypi.org/project/wordfreq/">Wordfreq library page.</a>
 
 PS: I removed slovak and slovenian because this 2 languages didn't work properly for some reason, sorry;( 
 
-## Development Updates
-
-### Fixes and Improvements
-
-- ~~**Issue 1**: Fix sorting order.~~ (Completed)
-- ~~**Issue 2**: Fix upper case lower case problem.~~ (Completed)
-- **Issue 3**: Fix sorting words by date.
-- **Issue 4**: Fix colors of tables menu.  
-
-### Planned Additions and Changes
-
-- ~~**Addition/Change 2**: Add option to add sentences of phrases.~~ (Completed)
-- ~~**Addition/Change 1**: Add other languages support.~~ (Completed)
-- ~~**Addition/Change 3**: Add option to create more than one table.~~ (Completed)
-- ~~**Addition/Change 4**: Add stars near each word so the word will be in priority while sorting.~~  (Completed)
 
 ## FAQ
 
@@ -113,6 +75,31 @@ Sometimes you want to learn more difficult words first, like, for example, becau
 2. If you want to add more than one word at ones you can just write the list of words that you want ot add devided by ",". The program will rate each word separately.
 3. You can sort words in each direction from the simplest to the most difficult and in the opposite way by just clicking twice on the "difficulty" button.
 4. The word's difficulty varies from 1 to 100. If you are getting the word with number 101 that means that the API doesn't have this word. It happens very rare, usually with some very unpopular words and slang.
+
+
+## Supported Languages
+
+- **English**
+- **Spanish**
+- **German**
+- **Japanese**
+- **Korean**
+- **Chinese**
+- **Franch**
+- **Arabic**
+- **Russian**
+- **Czech**
+- **Hebrew**
+- **Polish**
+- **Swedish**
+- **Norwegian**
+- **Dutch**
+- **Italian**
+- **Bengali**
+- **Portuguese**
+- **Catalan**
+
+And 20 more languages!
 
 ## License
 
